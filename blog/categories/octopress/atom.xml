@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octopress | Eebs Kobeissi]]></title>
+  <link href="http://eebs.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://eebs.github.io/"/>
+  <updated>2014-07-30T17:15:24-04:00</updated>
+  <id>http://eebs.github.io/</id>
+  <author>
+    <name><![CDATA[Eebs Kobeissi]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Up and Running With Octopress]]></title>
+    <link href="http://eebs.github.io/blog/2013/01/14/up-and-running-with-octopress/"/>
+    <updated>2013-01-14T17:52:00-05:00</updated>
+    <id>http://eebs.github.io/blog/2013/01/14/up-and-running-with-octopress</id>
+    <content type="html"><![CDATA[<p>As you can clearly see, I just finished installing <a href="http://octopress.org/">Octopress</a>. Over the past few weeks I have had sudden urges to write things down, either for discussion or mental relief. I used to have a blog on Wordpress several years ago, but I stopped writing for a while, and eventually trashed it. I figured I&rsquo;d start one up again, using it to document various projects or ideas of mine.</p>
+
+<p>I saw a post on Reddit about installing Octopress on Windows, and something about the Octo/Github wording made me click the link. Once I figured out what Octopress was, I realized I most definitely wouldn&rsquo;t want to install it on Windows, but I may check it out on my laptop. Octopress is a &ldquo;blogging framework for hackers&rdquo;, which sounds fairly intriguing. It&rsquo;s built to use <a href="https://github.com/mojombo/jekyll">Jekyll</a>, something I had heard of in the past, mostly from <a href="http://kylerush.net/blog/meet-the-obama-campaigns-250-million-fundraising-platform/">Kyle Rush&rsquo;s</a> blog post on the Obama fundraising platform. It&rsquo;s written in Ruby, my new favorite language, so I decided I&rsquo;d try it out.</p>
+
+<p>I followed the installation instructions on the Octopress page, and the install went smoothly. Github pages took a little while to build, but once it was up it worked well. I even managed to hook it up to my own domain. Using git to make posts is a little weird, but I think I&rsquo;ll get used to the process. There are some helper commands (implemented as rake tasks) that you can run to make new posts, generate the site, and even deploy, which makes things much easier. I&rsquo;m still going to have to write some aliases because for whatever reason I have to run <code>bundle exec rake</code> instead of just <code>rake</code>. A couple of the commands seem to be often run in sequence, so I&rsquo;ll probably make an alias to run them together. I&rsquo;ll try and remember to post those here somewhere (I think Octopress has built in gist support or something).</p>
+
+<p><em>&ndash; Edit &ndash;</em> Found the gist support:</p>
+
+<p><div><script src='https://gist.github.com/4535615.js'></script>
+<noscript><pre><code>alias octo=&#39;bundle exec rake&#39;
+alias octog=&#39;bundle exec rake generate&#39;
+alias octod=&#39;bundle exec rake deploy&#39;
+alias octogd=&#39;bundle exec rake generate &amp;&amp; bundle exec rake deploy&#39;</code></pre></noscript></div>
+</p>
+
+<p>I&rsquo;m not entirely sure what I&rsquo;ll end up using this blog for mostly, but it&rsquo;ll probably be a fair amount of everything. Maybe there will be some rants about code, or links to neat articles. I might add some posts about EvE Online, or maybe some entries about my ongoing Rails projects.</p>
+
+<p>Who knows.</p>
+]]></content>
+  </entry>
+  
+</feed>

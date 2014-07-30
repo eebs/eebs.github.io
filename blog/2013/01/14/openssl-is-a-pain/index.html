@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>OpenSSL Is a Pain - Eebs Kobeissi</title>
+  <meta name="author" content="Eebs Kobeissi">
+
+  
+  <meta name="description" content="OpenSSL Is a Pain written Jan 14th, 2013 in code, openssl, work &ndash; Warning: Technical &ndash; Today I had the joy of dealing with a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://eebs.github.io/blog/2013/01/14/openssl-is-a-pain">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Eebs Kobeissi" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>OpenSSL Is a Pain</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-01-14T22:12:00-05:00" pubdate data-updated="true">Jan 14<sup>th</sup>, 2013</time>
+          
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/code/'>code</a>, <a class='category' href='/blog/categories/openssl/'>openssl</a>, <a class='category' href='/blog/categories/work/'>work</a>
+  
+</span>
+
+
+        </div>
+        <p><em>&ndash; Warning: Technical &ndash;</em></p>
+
+<p>Today I had the joy of dealing with a particularly annoying problem at work. What should have taken me about two minutes to set up, ended up taking an hour and a half and four people&rsquo;s time.</p>
+
+<p>To understand this post, you first need to know a little bit about how some of <a href="http://kurogo.org/home/">our software</a> works. Most of the modules in our software talk to external data sources, pulling in content and feeds from different types of backends the client may have. We have some modules however, that talk to our own internally developed backend. Our own backend we&rsquo;ll call the content server (CMS), and the consumer we&rsquo;ll call the application server (app server).</p>
+
+<p>One of the things I needed to do today for one of our designers was to hook up the app server to the CMS, so he could theme the site and make it look good. This should have been a very simple process, but when I put everything in place I got a lovely error saying the CMS wasn&rsquo;t available. I was able to make the calls via my browser, so I knew the CMS was functioning fine, must be an issue with the app server. I added some debugging code to the component that makes the request, and was greeted by a lovely cURL SSL error:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl: (35) error:14077458:SSL routines:SSL23_GET_SERVER_HELLO:reason(1112)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I did what all good software engineers do, and Googled the error, which lead me to <a href="http://sourceforge.net/p/curl/bugs/1037/">this ticket</a>. The short of it is that when a client using OpenSSL 0.9.8 connects to a server using OpenSSL 1.0, a TLS alert is raised, which causes OpenSSL 0.9.8 to explode. The tricky part is that this only happens when the server doesn&rsquo;t have an Apache ServerName or ServerAlias option that matches the request domain name. It just so happened that our CMS server was running 1.0, and my local machine was running 0.9.8. The CMS also didn&rsquo;t have a valid ServerName set, and so I got this error. We have several other instances of this type of connection (app server to CMS) running, but this was the first time it happened in the particular manner.</p>
+
+<p>We found a couple fixes. The easiest is to simply add a matching ServerName option to the CMS server. The other option was to force SSLv3 in cURL, which magically made this bug disappear. It was obnoxious to track down because no one else could reproduce it, but I was very clearly getting an error.</p>
+
+<p>While I love OpenSSL and the wonders it offers, it can sometimes be very annoying to work with.</p>
+
+
+        <hr class="divider-short"/>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2013/01/14/up-and-running-with-octopress/" title="Previous Post: Up and Running with Octopress">&laquo; Previous: Up and Running with Octopress</a>
+        
+
+        
+          <a class="pull-right" href="/blog/2013/01/16/berkeley-edx-software-as-a-service/" title="Next Post: Berkeley edX: Software as a Service">Next: Berkeley edX: Software as a Service &raquo;</a>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+
+    
+
+    
+
+    
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

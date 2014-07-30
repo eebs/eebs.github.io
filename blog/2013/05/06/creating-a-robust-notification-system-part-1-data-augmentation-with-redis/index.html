@@ -1,24 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Eebs Kobeissi]]></title>
-  <link href="http://eebs.github.io/atom.xml" rel="self"/>
-  <link href="http://eebs.github.io/"/>
-  <updated>2014-07-30T17:15:24-04:00</updated>
-  <id>http://eebs.github.io/</id>
-  <author>
-    <name><![CDATA[Eebs Kobeissi]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Creating a Robust Notification System - Part 1: Data Augmentation With Redis - Eebs Kobeissi</title>
+  <meta name="author" content="Eebs Kobeissi">
 
   
-  <entry>
-    <title type="html"><![CDATA[Creating a Robust Notification System - Part 1: Data Augmentation With Redis]]></title>
-    <link href="http://eebs.github.io/blog/2013/05/06/creating-a-robust-notification-system-part-1-data-augmentation-with-redis/"/>
-    <updated>2013-05-06T18:03:00-04:00</updated>
-    <id>http://eebs.github.io/blog/2013/05/06/creating-a-robust-notification-system-part-1-data-augmentation-with-redis</id>
-    <content type="html"><![CDATA[<p>Over the last few months I&rsquo;ve been working on a personal project, and in the next three blog posts I will be talking a bit about one portion of the overall system. I have created what I think it a pretty cool notification and messaging system, during which time I explored several design patterns that were new to me. I would like to share my experience and newfound knowledge. Thanks for reading!</p>
+  <meta name="description" content="Creating a Robust Notification System - Part 1: Data Augmentation With Redis written May 6th, 2013 in code, programming, rails, redis, ruby Over the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://eebs.github.io/blog/2013/05/06/creating-a-robust-notification-system-part-1-data-augmentation-with-redis">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Eebs Kobeissi" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Creating a Robust Notification System - Part 1: Data Augmentation With Redis</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-05-06T18:03:00-04:00" pubdate data-updated="true">May 6<sup>th</sup>, 2013</time>
+          
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/code/'>code</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/redis/'>redis</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+        </div>
+        <p>Over the last few months I&rsquo;ve been working on a personal project, and in the next three blog posts I will be talking a bit about one portion of the overall system. I have created what I think it a pretty cool notification and messaging system, during which time I explored several design patterns that were new to me. I would like to share my experience and newfound knowledge. Thanks for reading!</p>
 
 <h2>Introduction</h2>
 
@@ -35,7 +87,7 @@
 
 <p>At a very basic level, I needed to be able to send a user a notification containing some message about the state change. I also wanted to be able to send the same message to multiple users, in the event that I needed to send out a site wide announcement to all users, or a notification to all admins. I started by creating a Message model for holding the content of the message in addition to the User model I already had. The Message model simply has <strong>title</strong> and <strong>body</strong> fields, of type string and text respectively. There is a many to many relationship between Users and Messages. If you have the simplest many to many relationship, Rails provides the <a href="http://guides.rubyonrails.org/association_basics.html#the-has_and_belongs_to_many-association"><em>has_and_belongs_to_many</em> association</a>, which simply creates a join table with two columns for the foreign keys. However, I needed to store a little bit more information, such when the message was read by the user, so I created a Notification join model. The Notification model has <strong>user_id</strong> and <strong>message_id</strong> fields, along with a <strong>read_at</strong> timestamp. I connected these three models with Rails&#8217; <a href="http://guides.rubyonrails.org/association_basics.html#the-has_many-through-association"><em>has_many_through</em> association</a>.</p>
 
-<p><img src="http://eebs.github.io/images/notification_association.png" width="1294" height="620" title="Notification Association" ></p>
+<p><img src="/images/notification_association.png" width="1294" height="620" title="Notification Association" ></p>
 
 <p>Here&rsquo;s what the code for my models ended up looking like:</p>
 
@@ -334,154 +386,59 @@ Volume Remaining changed from 1 to 0</p></blockquote>
 <p>In the next post, I&rsquo;ll discuss how I display the messages to users using the Presenter pattern, as well as talk about why STI is a good fit in this case.</p>
 
 <p>Please feel free to leave any comments or questions below.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Nginx and Unsupported HTTP Headers]]></title>
-    <link href="http://eebs.github.io/blog/2013/01/21/nginx-and-unsupported-http-headers/"/>
-    <updated>2013-01-21T17:44:00-05:00</updated>
-    <id>http://eebs.github.io/blog/2013/01/21/nginx-and-unsupported-http-headers</id>
-    <content type="html"><![CDATA[<p><em>&ndash; Warning: Technical &ndash;</em></p>
-
-<p>One of my favorite pastimes is combining coding and video games. This weekend was full of coding, cursing, and hair pulling (some of the cursing was due to watching the Patriots lose). I play the video game <a href="http://www.eveonline.com">EvE Online</a> and one of the fantastic things CCP, the company that makes EvE, has done is to provide an API into the game universe. This means you can make calls to the API to find out information about your characters, their skills, tasks they are performing in-game, etc. In EvE, players fly spaceships throughout the universe, fighting each other, NPCs, and in general blowing up lots of things. The ships players fly don&rsquo;t appear out of nowhere however, they must be built by other players in the game. That&rsquo;s where a friend of mine and I come in. We build capital ships, some of the largest ships in the game. Each ship takes many takes to build, and there is a somewhat lengthy process we go through in game. I have created <a href="http://ships.eebsy.com/">a website</a>, that helps us track the progress and various stages of production of all our ships. It is mostly for our internal use, but I have grand schemes for its eventual capabilities. It this website that this post is about.</p>
-
-<p>Another cool part of EvE Online, is that CCP built a web browser right into the game client. It functions like a normal browser for the most part, but people (like myself) can build websites to take advantage of some extra features it offers. If a player uses the in game browser (IGB for short) to visit a site, and gives that site their trust, CCP sends to the site some extra information about the character that is visiting the site. This information contains things like the character&rsquo;s name, its ID, the corporation it belongs to, where it is, what ship it&rsquo;s flying, the list goes on. I decided to use this information to allow users to sign up for my site. When a character uses the IGB to sign up, my site takes the information from CCP and automatically fills in their character name, and only asks the user for a password. This ensures that only the person who owns the character can sign up. There are ways around this, it&rsquo;s not 100% foolproof, but it makes it harder to game the system.</p>
-
-<p>So now you know my end goal. To use the information from the IGB to make user sign up easier. Now on to the cursing and hair pulling part. The way the IGB delivers this extra information, is through HTTP headers. The issue is that they are <em>invalid</em> HTTP headers. HTTP headers should be letters only, with hyphens separating words or phrases. <em>Accept</em>, <em>Cache-Control</em>, <em>Host</em>, and <em>User-Agent</em> are examples of some common headers you may have seen before. CCP however, sends headers like <em>EVE_TRUSTED</em>, <em>EVE_CHARNAME</em>, and <em>EVE_SHIPNAME</em>. These contain underscores, which are invalid HTTP header characters.</p>
-
-<p>In most of my <a href="http://rubyonrails.org/">Rails</a> applications, I use <a href="http://wiki.nginx.org/Main">nginx</a> as my web server. It&rsquo;s very fast, uses very few resources, and is easy to configure. When I was first doing some testing, trying to get the extra header information from the IGB to my application, I noticed that nothing was coming through at all. All the headers that were supposed to be showing up simply weren&rsquo;t there. After some Googling, I quickly found out that the headers were invalid. There is even a mention of this <a href="http://wiki.eveonline.com/en/wiki/IGB_Headers#PHP">in the official wiki</a>, noting that if you&rsquo;re using nginx you should &ldquo;activate the <em>underscores_in_headers</em> directive in your <em>server</em> config&rdquo;. So I did that. Unfortunately, it did nothing.</p>
-
-<p>Here&rsquo;s what my nginx config looks like for this application:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>upstream unicorn_ships {
-</span><span class='line'>  server unix:/tmp/unicorn.ships.sock fail_timeout=0;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>server {
-</span><span class='line'>  listen 80;
-</span><span class='line'>  server_name ships.eebsy.com;
-</span><span class='line'>  root /home/deployer/apps/ships/current/public;
-</span><span class='line'>
-</span><span class='line'>  location ^~ /assets/ {
-</span><span class='line'>    gzip_static on;
-</span><span class='line'>    expires max;
-</span><span class='line'>    add_header Cache-Control public;
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  try_files $uri/index.html $uri @unicorn;
-</span><span class='line'>  location @unicorn {
-</span><span class='line'>    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-</span><span class='line'>    proxy_set_header Host $http_host;
-</span><span class='line'>    proxy_redirect off;
-</span><span class='line'>    proxy_pass http://unicorn_ships;
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  error_page 500 502 503 504 /500.html;
-</span><span class='line'>  client_max_body_size 4G;
-</span><span class='line'>  keepalive_timeout 10;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>I added the <em>underscores_in_headers</em> directive in the <em>server</em> block, right under the <em>root</em> directive. This is exactly where the EVE wiki says it should be, and also where the official documentation <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#underscores_in_headers">says it should be</a>. I messed around for about four hours on Sunday, trying to get the headers to go through. For a while, I thought the headers weren&rsquo;t being sent through the proxy, so I added a <em>proxy_set_header</em> entry to the <em>location</em> block, but that didn&rsquo;t help either.</p>
+        <hr class="divider-short"/>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
 
-<p>Out of desperation, I added the <em>underscores_in_headers</em> entry to the main nginx.conf file. I typically don&rsquo;t like putting directives that only apply to one application in the root config file, but I didn&rsquo;t know what else to do. And of course, it starts working. Maybe I&rsquo;m still too unfamiliar with configuring nginx, but the way I read the documentation, it makes it sound like it should work perfectly fine if you add it to the <em>server</em> block.</p>
+<hr class="divider-short"/>
 
-<p>So after hours of cursing, debugging with cURL, and lots of frustration, my site finally works the way I want it to. It was definitely worth the effort, and I learned a few things along the way. If anyone knows why adding the directive to the <em>server</em> block didn&rsquo;t work, please let me know in the comments below.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Berkeley edX: Software as a Service]]></title>
-    <link href="http://eebs.github.io/blog/2013/01/16/berkeley-edx-software-as-a-service/"/>
-    <updated>2013-01-16T19:09:00-05:00</updated>
-    <id>http://eebs.github.io/blog/2013/01/16/berkeley-edx-software-as-a-service</id>
-    <content type="html"><![CDATA[<p>Some background: One of the things my company and <a href="http://techcrunch.com/2013/01/03/forrester-saas-and-data-driven-smart-apps-fueling-worldwide-software-growth/">many</a> <a href="http://www.computerworlduk.com/in-depth/cloud-computing/3419286/saas-in-2013-companies-trends-watch/">others</a> are doing is moving to a more SaaS oriented business model. It&rsquo;s a growing space in software engineering, and as we see more and more cloud based services I can only expect this trend to continue. SaaS provides many benefits, especially for a rapidly changing product as ours. SaaS would allow us to roll out features to clients quickly and in a scalable manner, ensuring some level of consistency across all clients without having to worry about which version a client was on, which version fixed a bug they had, etc. We recently made some changes to our software that made it technically feasible to use a SaaS methodology, allowing us to run multiple clients off one instance of our product. We don&rsquo;t currently have that set up, but we&rsquo;re definitely moving in the right direction.</p>
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2013/01/21/nginx-and-unsupported-http-headers/" title="Previous Post: Nginx and Unsupported HTTP Headers">&laquo; Previous: Nginx and Unsupported HTTP Headers</a>
+        
 
-<p>So with all this in mind, when I saw that Berkeley edX was offering a course on SaaS, I figured I&rsquo;d take it. It&rsquo;s taught using TDD, Agile development, and Rails, all of which I&rsquo;m familiar and use both at work and at home. The software engineering course I took at university wasn&rsquo;t very helpful to me, and I thought it might be fun to take a course that appears to be more in line with my expectations for a software engineering course.</p>
+        
+      </div>
+    </div>
+  </div>
+</div>
 
-<p>I&rsquo;ve gone through the first two lectures, most of which is just a general overview of what SaaS is, and agile development is, and how they contrast to other practices. The next two lectures are available, along with the first homework and quiz, but I haven&rsquo;t had time to go through them yet. I think the course will be a great experience, as it&rsquo;s only about 6-12 hours of work a week for five weeks. There is a follow up, more advanced course that I plan on taking afterwards. I&rsquo;m hoping there will be other contemporary CS classes offered via edX. I think it&rsquo;s a great opportunity for students and graduates to see a different aspect of software engineering that doesn&rsquo;t seem to be taught in typical classes very often.</p>
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
 
-<p>I&rsquo;ll do another post at the end of the course with my thoughts on how it went, and any new practices or concepts I learned. <a href="https://www.edx.org/courses/BerkeleyX/CS169.1x/2013_Spring/about">You can still register for the course</a> if you&rsquo;re interested, or check out the <a href="http://www.youtube.com/watch?v=V36LpHqtcDY">intro video</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[OpenSSL Is a Pain]]></title>
-    <link href="http://eebs.github.io/blog/2013/01/14/openssl-is-a-pain/"/>
-    <updated>2013-01-14T22:12:00-05:00</updated>
-    <id>http://eebs.github.io/blog/2013/01/14/openssl-is-a-pain</id>
-    <content type="html"><![CDATA[<p><em>&ndash; Warning: Technical &ndash;</em></p>
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
 
-<p>Today I had the joy of dealing with a particularly annoying problem at work. What should have taken me about two minutes to set up, ended up taking an hour and a half and four people&rsquo;s time.</p>
+    
 
-<p>To understand this post, you first need to know a little bit about how some of <a href="http://kurogo.org/home/">our software</a> works. Most of the modules in our software talk to external data sources, pulling in content and feeds from different types of backends the client may have. We have some modules however, that talk to our own internally developed backend. Our own backend we&rsquo;ll call the content server (CMS), and the consumer we&rsquo;ll call the application server (app server).</p>
+    
 
-<p>One of the things I needed to do today for one of our designers was to hook up the app server to the CMS, so he could theme the site and make it look good. This should have been a very simple process, but when I put everything in place I got a lovely error saying the CMS wasn&rsquo;t available. I was able to make the calls via my browser, so I knew the CMS was functioning fine, must be an issue with the app server. I added some debugging code to the component that makes the request, and was greeted by a lovely cURL SSL error:</p>
+    
+  </div>
+</div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>curl: (35) error:14077458:SSL routines:SSL23_GET_SERVER_HELLO:reason(1112)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I did what all good software engineers do, and Googled the error, which lead me to <a href="http://sourceforge.net/p/curl/bugs/1037/">this ticket</a>. The short of it is that when a client using OpenSSL 0.9.8 connects to a server using OpenSSL 1.0, a TLS alert is raised, which causes OpenSSL 0.9.8 to explode. The tricky part is that this only happens when the server doesn&rsquo;t have an Apache ServerName or ServerAlias option that matches the request domain name. It just so happened that our CMS server was running 1.0, and my local machine was running 0.9.8. The CMS also didn&rsquo;t have a valid ServerName set, and so I got this error. We have several other instances of this type of connection (app server to CMS) running, but this was the first time it happened in the particular manner.</p>
-
-<p>We found a couple fixes. The easiest is to simply add a matching ServerName option to the CMS server. The other option was to force SSLv3 in cURL, which magically made this bug disappear. It was obnoxious to track down because no one else could reproduce it, but I was very clearly getting an error.</p>
-
-<p>While I love OpenSSL and the wonders it offers, it can sometimes be very annoying to work with.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Up and Running With Octopress]]></title>
-    <link href="http://eebs.github.io/blog/2013/01/14/up-and-running-with-octopress/"/>
-    <updated>2013-01-14T17:52:00-05:00</updated>
-    <id>http://eebs.github.io/blog/2013/01/14/up-and-running-with-octopress</id>
-    <content type="html"><![CDATA[<p>As you can clearly see, I just finished installing <a href="http://octopress.org/">Octopress</a>. Over the past few weeks I have had sudden urges to write things down, either for discussion or mental relief. I used to have a blog on Wordpress several years ago, but I stopped writing for a while, and eventually trashed it. I figured I&rsquo;d start one up again, using it to document various projects or ideas of mine.</p>
-
-<p>I saw a post on Reddit about installing Octopress on Windows, and something about the Octo/Github wording made me click the link. Once I figured out what Octopress was, I realized I most definitely wouldn&rsquo;t want to install it on Windows, but I may check it out on my laptop. Octopress is a &ldquo;blogging framework for hackers&rdquo;, which sounds fairly intriguing. It&rsquo;s built to use <a href="https://github.com/mojombo/jekyll">Jekyll</a>, something I had heard of in the past, mostly from <a href="http://kylerush.net/blog/meet-the-obama-campaigns-250-million-fundraising-platform/">Kyle Rush&rsquo;s</a> blog post on the Obama fundraising platform. It&rsquo;s written in Ruby, my new favorite language, so I decided I&rsquo;d try it out.</p>
-
-<p>I followed the installation instructions on the Octopress page, and the install went smoothly. Github pages took a little while to build, but once it was up it worked well. I even managed to hook it up to my own domain. Using git to make posts is a little weird, but I think I&rsquo;ll get used to the process. There are some helper commands (implemented as rake tasks) that you can run to make new posts, generate the site, and even deploy, which makes things much easier. I&rsquo;m still going to have to write some aliases because for whatever reason I have to run <code>bundle exec rake</code> instead of just <code>rake</code>. A couple of the commands seem to be often run in sequence, so I&rsquo;ll probably make an alias to run them together. I&rsquo;ll try and remember to post those here somewhere (I think Octopress has built in gist support or something).</p>
-
-<p><em>&ndash; Edit &ndash;</em> Found the gist support:</p>
-
-<div><script src='https://gist.github.com/4535615.js'></script>
-<noscript><pre><code>alias octo=&#39;bundle exec rake&#39;
-alias octog=&#39;bundle exec rake generate&#39;
-alias octod=&#39;bundle exec rake deploy&#39;
-alias octogd=&#39;bundle exec rake generate &amp;&amp; bundle exec rake deploy&#39;</code></pre></noscript></div>
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
 
 
-<p>I&rsquo;m not entirely sure what I&rsquo;ll end up using this blog for mostly, but it&rsquo;ll probably be a fair amount of everything. Maybe there will be some rants about code, or links to neat articles. I might add some posts about EvE Online, or maybe some entries about my ongoing Rails projects.</p>
+    </div>
+  </div>
+</footer>
 
-<p>Who knows.</p>
-]]></content>
-  </entry>
-  
-</feed>
+  </body>
+</html>
