@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Code | Eebs Kobeissi]]></title>
   <link href="http://eebs.github.io/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://eebs.github.io/"/>
-  <updated>2014-07-30T17:19:09-04:00</updated>
+  <updated>2014-07-30T17:24:39-04:00</updated>
   <id>http://eebs.github.io/</id>
   <author>
     <name><![CDATA[Eebs Kobeissi]]></name>
@@ -35,7 +35,7 @@
 
 <p>At a very basic level, I needed to be able to send a user a notification containing some message about the state change. I also wanted to be able to send the same message to multiple users, in the event that I needed to send out a site wide announcement to all users, or a notification to all admins. I started by creating a Message model for holding the content of the message in addition to the User model I already had. The Message model simply has <strong>title</strong> and <strong>body</strong> fields, of type string and text respectively. There is a many to many relationship between Users and Messages. If you have the simplest many to many relationship, Rails provides the <a href="http://guides.rubyonrails.org/association_basics.html#the-has_and_belongs_to_many-association"><em>has_and_belongs_to_many</em> association</a>, which simply creates a join table with two columns for the foreign keys. However, I needed to store a little bit more information, such when the message was read by the user, so I created a Notification join model. The Notification model has <strong>user_id</strong> and <strong>message_id</strong> fields, along with a <strong>read_at</strong> timestamp. I connected these three models with Rails' <a href="http://guides.rubyonrails.org/association_basics.html#the-has_many-through-association"><em>has_many_through</em> association</a>.</p>
 
-<p><img src="/images/notification_association.png" width="1294" height="620" title="Notification Association" ></p>
+<p><img src="/images/notification_association.png" width="750" height="360" title="Notification Association" ></p>
 
 <p>Here&rsquo;s what the code for my models ended up looking like:</p>
 
