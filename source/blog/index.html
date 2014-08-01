@@ -1,34 +1,32 @@
 ---
-layout: default
+layout: page
 title: Blog
 ---
-<div class="all-posts">
 
-  <div class="article-list">
-    <div class="container">
-      {% for post in paginator.posts %}
-      {% assign content = post.content %}
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          {% include article_listing.html %}
-        </div>
+<div class="article-list">
+  <div class="container">
+    {% for post in paginator.posts %}
+    {% assign content = post.content %}
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6">
+        {% include article_listing.html %}
       </div>
-      {% endfor %}
     </div>
+    {% endfor %}
   </div>
+</div>
 
-  <div class="archive-link">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-          {% if paginator.next_page %}
-            <a class="pull-left" href="{{paginator.next_page_path}}" title="Older">&laquo; Older</a>
-          {% endif %}
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        {% if paginator.next_page %}
+          <a class="pull-left" href="{{paginator.next_page_path}}" title="Older">&laquo; Older</a>
+        {% endif %}
 
-          {% if paginator.previous_page %}
-            <a class="pull-right" href="{{paginator.previous_page_path}}" title="Newer">Newer &raquo;</a>
-          {% endif %}
-        </div>
+        {% if paginator.previous_page %}
+          <a class="pull-right" href="{{paginator.previous_page_path}}" title="Newer">Newer &raquo;</a>
+        {% endif %}
       </div>
     </div>
   </div>
