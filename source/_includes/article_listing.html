@@ -5,7 +5,9 @@
     {{ content | excerpt | markdownify }}
   </p>
   <span class="meta">
+    {% include post/author.html %}
     written {% include post/date.html %}{% if updated %}{{ updated }}{% else %}{{ time }}{% endif %}
+    <br/>
     {% include post/categories.html %}
   </span>
 
@@ -13,3 +15,4 @@
     <a class="full-article-link pull-right" rel="full-article" href="{{ root_url }}{{ post.url }}">{{ site.excerpt_link }}</a>
   {% endif %}
 </article>
+<hr class="divider-short"/>

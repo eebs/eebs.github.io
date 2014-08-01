@@ -12,6 +12,8 @@ Today I had the joy of dealing with a particularly annoying problem at work. Wha
 
 To understand this post, you first need to know a little bit about how some of [our software](http://kurogo.org/home/) works. Most of the modules in our software talk to external data sources, pulling in content and feeds from different types of backends the client may have. We have some modules however, that talk to our own internally developed backend. Our own backend we'll call the content server (CMS), and the consumer we'll call the application server (app server).
 
+<!-- more -->
+
 One of the things I needed to do today for one of our designers was to hook up the app server to the CMS, so he could theme the site and make it look good. This should have been a very simple process, but when I put everything in place I got a lovely error saying the CMS wasn't available. I was able to make the calls via my browser, so I knew the CMS was functioning fine, must be an issue with the app server. I added some debugging code to the component that makes the request, and was greeted by a lovely cURL SSL error:
 
 ```

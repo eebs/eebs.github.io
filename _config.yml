@@ -5,9 +5,9 @@
 url: http://eebs.github.io
 title: Eebs Kobeissi
 subtitle: software engineer coding in Boston
-author: Eebs Kobeissi
+author: Eebs
 simple_search:
-description: I'm a full stack software engineer working mostly with web and mobile technologies.
+description: I'm a full stack software engineer working primarily with web and mobile technologies.
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -41,8 +41,8 @@ rdiscount:
     - smart
 highlighter: pygments # default python pygments have been replaced by pygments.rb
 
-paginate: 3          # Posts per page on the blog index
-paginate_path: "posts/:num"  # Directory base for pagination URLs eg. /posts/2/
+paginate: 5          # Posts per page on the blog index
+paginate_path: "blog/:num"  # Directory base for pagination URLs eg. /posts/2/
 recent_posts: 3       # Posts in the sidebar Recent Posts section
 excerpt_link: "Read on &rarr;"  # "Continue reading" link text at the bottom of excerpted articles
 excerpt_separator: "<!--more-->"
@@ -91,7 +91,7 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
+disqus_short_name: eebskobeissi
 disqus_show_comment_count: false
 
 # Google Analytics
