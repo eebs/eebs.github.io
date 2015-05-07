@@ -9,12 +9,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Eebs Kobeissi</title>
+  <title>Blog - Eebs Kobeissi</title>
   <meta name="author" content="Eebs">
 
   
-  <meta name="description" content="Eebs Kobeissi
-software engineer coding in Boston about me I&#8217;m a full stack software engineer working primarily with web and mobile &hellip;">
+  <meta name="description" content="Home Blog Blog Creating a Robust Notification System - Part 1: Data Augmentation With Redis Over the last few months I&rsquo;ve been working on a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -23,7 +22,7 @@ software engineer coding in Boston about me I&#8217;m a full stack software engi
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://eebs.github.io">
+  <link rel="canonical" href="http://eebs.github.io/blog">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Eebs Kobeissi" type="application/atom+xml">
@@ -40,47 +39,36 @@ software engineer coding in Boston about me I&#8217;m a full stack software engi
       <img src="/images/home.png"/>
     </a>
 
-    <div class="home-page">
-  <div class="hero">
-    <h1>Eebs Kobeissi</h1>
-<p>software engineer coding in Boston</p>
-
-  </div>
-
-  <div class="home-field">
-    <div class="home-landing her-row">
-      <div class="container">
-        <div class="row">
-          
-
+    <div id="pagenavbar">
+    <div class="container">
+        <div id="navbarwrapper" class="col-md-offset-3 col-md-6">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
         </div>
-        <div class="row">
-          <div id="about-me" class="col-md-offset-3 col-md-6">
-  <h4>about me</h4>
-  <p>I&#8217;m a full stack software engineer working primarily with web and mobile technologies. I enjoy working with APIs, exploring new technologies, and getting lost in computational theory.</p>
-  <div class="social-icon-list">
-  	
-    <a title="Twitter" href="https://twitter.com/EebsKobeissi"><img src="/images/glyphicons_social_31_twitter.png"/></a>
-    
-    
-    <a title="GitHub" href="https://github.com/eebs"><img src="/images/glyphicons_social_21_github.png"/></a>
-    
-    
-    
-  </div>
+    </div>
 </div>
 
-        </div>
+
+<div class="all-posts">
+  <div class="container">
+    <div class="row">
+      <div class="list-title col-md-offset-3 col-md-6">
+        <h4>Blog</h4>
       </div>
     </div>
+  </div>
 
-    <div class="article-list">
-      <div class="container">
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
+  <hr class="divider-short"/>
+
+  <div class="article-list">
+  <div class="container">
+    
+    
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6">
+        <article>
   <h2><a href="/blog/2013/05/06/creating-a-robust-notification-system-part-1-data-augmentation-with-redis/">Creating a Robust Notification System - Part 1: Data Augmentation With Redis</a></h2>
   
   <p>
@@ -143,13 +131,13 @@ software engineer coding in Boston about me I&#8217;m a full stack software engi
 </article>
 <hr class="divider-short"/>
 
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
+      </div>
+    </div>
+    
+    
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6">
+        <article>
   <h2><a href="/blog/2013/01/21/nginx-and-unsupported-http-headers/">Nginx and Unsupported HTTP Headers</a></h2>
   
   <p>
@@ -202,13 +190,13 @@ software engineer coding in Boston about me I&#8217;m a full stack software engi
 </article>
 <hr class="divider-short"/>
 
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
+      </div>
+    </div>
+    
+    
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6">
+        <article>
   <h2><a href="/blog/2013/01/16/berkeley-edx-software-as-a-service/">Berkeley edX: Software as a Service</a></h2>
   
   <p>
@@ -256,16 +244,143 @@ software engineer coding in Boston about me I&#8217;m a full stack software engi
 </article>
 <hr class="divider-short"/>
 
-            </div>
-          </div>
+      </div>
+    </div>
+    
+    
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6">
+        <article>
+  <h2><a href="/blog/2013/01/14/openssl-is-a-pain/">OpenSSL Is a Pain</a></h2>
+  
+  <p>
+    <p><em>&ndash; Warning: Technical &ndash;</em></p>
+
+
+
+
+<p>Today I had the joy of dealing with a particularly annoying problem at work. What should have taken me about two minutes to set up, ended up taking an hour and a half and four people&rsquo;s time.</p>
+
+
+
+
+<p>To understand this post, you first need to know a little bit about how some of <a href="http://kurogo.org/home/">our software</a> works. Most of the modules in our software talk to external data sources, pulling in content and feeds from different types of backends the client may have. We have some modules however, that talk to our own internally developed backend. Our own backend we&rsquo;ll call the content server (CMS), and the consumer we&rsquo;ll call the application server (app server).</p>
+
+
+
+
+  </p>
+  <span class="meta">
+    
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Eebs</span></span>
+
+    written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-01-14T22:12:00-05:00" pubdate data-updated="true">Jan 14<sup>th</sup>, 2013</time>
+    <br/>
+    
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/code/'>code</a>, <a class='category' href='/blog/categories/openssl/'>openssl</a>, <a class='category' href='/blog/categories/work/'>work</a>
+  
+</span>
+
+
+  </span>
+
+  
+    <a class="full-article-link pull-right" rel="full-article" href="/blog/2013/01/14/openssl-is-a-pain/">Read on &rarr;</a>
+  
+</article>
+<hr class="divider-short"/>
+
+      </div>
+    </div>
+    
+    
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6">
+        <article>
+  <h2><a href="/blog/2013/01/14/up-and-running-with-octopress/">Up and Running With Octopress</a></h2>
+  
+  <p>
+    <p>As you can clearly see, I just finished installing <a href="http://octopress.org/">Octopress</a>. Over the past few weeks I have had sudden urges to write things down, either for discussion or mental relief. I used to have a blog on Wordpress several years ago, but I stopped writing for a while, and eventually trashed it. I figured I&rsquo;d start one up again, using it to document various projects or ideas of mine.</p>
+
+
+
+
+  </p>
+  <span class="meta">
+    
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Eebs</span></span>
+
+    written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-01-14T17:52:00-05:00" pubdate data-updated="true">Jan 14<sup>th</sup>, 2013</time>
+    <br/>
+    
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+  </span>
+
+  
+    <a class="full-article-link pull-right" rel="full-article" href="/blog/2013/01/14/up-and-running-with-octopress/">Read on &rarr;</a>
+  
+</article>
+<hr class="divider-short"/>
+
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+
         
       </div>
     </div>
-
-    <div class="archive-link">
-      <h3><a href="/blog/">All Posts</a></h3>
-    </div>
   </div>
+</div>
+
+
 </div>
 
     <footer id="footer" class="her-row">
