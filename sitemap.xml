@@ -34,36 +34,43 @@
   
   
   <url>
-    <loc>http://eebs.github.io/blog/</loc>
-    <lastmod>2015-05-08T16:22:33-04:00</lastmod>
+    <loc>http://eebs.github.io/</loc>
+    <lastmod>2015-05-14T13:46:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://eebs.github.io/blog/archives/</loc>
-    <lastmod>2015-05-08T16:22:33-04:00</lastmod>
+    <lastmod>2015-05-14T13:46:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://eebs.github.io/about/</loc>
-    <lastmod>2015-05-08T16:22:33-04:00</lastmod>
+    <lastmod>2015-05-14T13:46:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>http://eebs.github.io/</loc>
-    <lastmod>2015-05-08T16:22:33-04:00</lastmod>
+    <loc>http://eebs.github.io/posts/</loc>
+    <lastmod>2015-05-14T13:46:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>http://eebs.github.io/posts/</loc>
-    <lastmod>2015-05-08T16:22:33-04:00</lastmod>
+    <loc>http://eebs.github.io/blog/</loc>
+    <lastmod>2015-05-14T13:46:42-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://eebs.github.io/pixel/</loc>
+    <lastmod>2015-05-14T13:46:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

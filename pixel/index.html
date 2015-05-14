@@ -9,11 +9,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>About - Eebs Kobeissi</title>
+  <title>Pixel - Eebs Kobeissi</title>
   <meta name="author" content="Eebs">
 
   
-  <meta name="description" content=" Home Blog About ">
+  <meta name="description" content="Home Blog Pixel Pixel is an IRC bot who tries to be helpful. Pixel is partially inspired by Bucket who lives in the freenode.net #xkcd channel. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,7 +22,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://eebs.github.io/about">
+  <link rel="canonical" href="http://eebs.github.io/pixel">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Eebs Kobeissi" type="application/atom+xml">
@@ -67,7 +67,7 @@
   <div class="container">
     <div class="row">
       <div class="list-title col-md-offset-3 col-md-6">
-        <h4>About</h4>
+        <h4>Pixel</h4>
       </div>
     </div>
   </div>
@@ -77,7 +77,79 @@
   <div class="container">
     <div class="row">
       <div class="col-md-offset-3 col-md-6">
-        
+        <p>Pixel is an IRC bot who tries to be helpful. Pixel is partially inspired by <a href="http://wiki.xkcd.com/irc/Bucket">Bucket</a> who lives in the freenode.net #xkcd channel.</p>
+
+<p>There are a number of different behaviors Pixel has, broken down below.</p>
+
+<hr />
+
+<h3>YouTube</h3>
+
+<p>Anytime a YouTube link is posted in the channel, Pixel will post the title of the video in the channel.</p>
+
+<hr />
+
+<h3>Team Funcom</h3>
+
+<p>Played on the Team Funcom Team Fortress 2 server recently? Check your list of awards or view how many players are currently playing. Use the following commands to get information about the TF2 server.</p>
+
+<ul>
+<li><p>!tf2 &ndash; View the current map and number of players on the server.</p></li>
+<li><p>!players &ndash; View a list of players currently playing.</p></li>
+<li><p>!awards [name] &ndash; View a list of awards for yourself or [name] if provided. If no name is provided, Pixel will search for your IRC nick, and choose the first result.</p></li>
+</ul>
+
+
+<hr />
+
+<h3>Facts</h3>
+
+<p>Pixel can be taught facts, and he will remember them forever!</p>
+
+<h4>Addressing Pixel</h4>
+
+<p>You need to address Pixel directly to teach him facts. You can do this by prefixing your message with &ldquo;pixel:&rdquo;.</p>
+
+<h4>Teaching Facts to Pixel</h4>
+
+<h5>X is Y</h5>
+
+<p>The most common type of fact you can teach to Pixel is by simply saying &ldquo;X is Y&rdquo;. If someone says &ldquo;X&rdquo; later on, Pixel will reply &ldquo;X is Y&rdquo;</p>
+
+<p>Be careful about accidentally creating a new fact while talking to Pixel.<br/>
+If you type &ldquo;X is Y is Z&rdquo;, Pixel will split it on the first &ldquo;is&rdquo;, making the trigger &ldquo;X&rdquo; and the factoid &ldquo;Y is Z&rdquo; and Pixel will respond &ldquo;X is Y is Z&rdquo;.<br/>
+If you wanted &lsquo;X is Y&rsquo; to trigger &lsquo;Z&rsquo;, teach Pixel &lsquo;X is Y &lt;is> Z&rsquo;. See &lt;verb> below.</p>
+
+<h5>X &lt;verb> Y</h5>
+
+<p>You can use other things instead of &ldquo;is&rdquo; by putting them inside greater and lesser-than signs, such as &ldquo;X &lt;hates> Y&rdquo; or &ldquo;X &lt;compliments> Y&rdquo;</p>
+
+<h5>X &lt;reply> Y</h5>
+
+<p>You can say &ldquo;X &lt;\reply> Y&rdquo;, when someone says &ldquo;X&rdquo;, Pixel will respond &ldquo;Y&rdquo;.</p>
+
+<h5>X &lt;action> Y</h5>
+
+<p>If you use &ldquo;X &lt;action> Y&rdquo;, when someone says &ldquo;X&rdquo;, Pixel will use &ldquo;/me Y&rdquo;.</p>
+
+<h4>Username Variables</h4>
+
+<p>Putting a username variable in a factoid will replace the variable with a username when triggered.</p>
+
+<h5>$who</h5>
+
+<p>&ldquo;$who&rdquo; will be replaced by the name of the person who triggered the fact.</p>
+
+<h5>$someone</h5>
+
+<p>&ldquo;$someone&rdquo; will be replaced by a username chosen from anyone that Pixel has ever seen.</p>
+
+<hr />
+
+<h3>Help</h3>
+
+<p>You are here.</p>
+
       </div>
     </div>
   </div>
@@ -117,19 +189,6 @@
 </footer>
 
     
-
-<script type="text/javascript">
-      var disqus_shortname = 'eebskobeissi';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
 
 
 
